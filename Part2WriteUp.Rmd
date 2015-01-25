@@ -9,7 +9,7 @@ output: pdf_document
 The goal of the second portion of this project is to analyze the ToothGrowth dataset, which ships in the standard R datasets package.  The dataset represents a study of the effect of Vitamin C on tooth growth in Guinea Pigs.  Tooth length was measured with respect to two supplements (vitamin C and orange juice) and three doses for both (0.5 mg, 1 mg, and 2 mg).  The intent of this work is to perform some level of exploratory analysis on the data, produce data summaries for easy visualization of overall trends and data set properties, as well as utilize hypothesis tests and accompanying confidence intervals to compare tooth growth by both supplement and dose.  The latter will ideally allow us to make inferential statements regarding supplement and dose efficacy with a reasonable level of confidence.
 
 ## Data Analysis and Summary
-The first two tasks are to load the ToothGrowth dataset, perform some high level analyses, and generate summary data to give the reader a general overview of the data.  First, we want to load the dataset and take a look at its structure:
+The first two tasks involve loading the ToothGrowth dataset, performing some high level analyses, and generating summaries to give the reader a general overview of the data.  First, we want to load the dataset and take a look at its structure:
 
 ```{r toothGrowthStructure}
 ## Load Tooth Growth dataset
@@ -19,7 +19,7 @@ data(ToothGrowth)
 str(ToothGrowth)
 ```
 
-As described, the dataset consists of two supplements (orange juice and vitamin C), three dosages (0.5 mg, 1 mg, and 2 mg), and 60 observations of two lengths given the aforementioned factors.  In order to get a quick idea of the spread of the data, a summary is printed which calculates the mean, median, minimum/maximum values, and the quantiles.
+As described, the dataset consists of two supplements (orange juice and vitamin C), three dosages (0.5 mg, 1 mg, and 2 mg), and 60 observations of tooth lengths given the aforementioned factors.  In order to get a quick idea of the spread of the data, a summary is printed which calculates the mean, median, minimum/maximum values, and the distribution quantiles.
 
 ```{r toothGrowthSummary}
 ## Get an idea of the spread of the data
@@ -89,7 +89,7 @@ suppressMessages(grid.arrange(dosage.vs.supp.plot,
 ```
 
 ## Tooth Growth and Dosage
-After analyzing the data above, the natural question is how do both the supplement and dosage compare with regard to their effect on tooth growth.  In particular, is there a statistically significant indication that one supplement at a particular dosage is superior to the other?  In order to answer this question, two hypothesis tests are setup per dosage (three in total).  The null hypothesis (H0) is that there is no difference in tooth growth between orange juice and vitamin C at the given dosage.  The alternative hypothesis (Ha) posits that there is, in fact, a statistically significant difference in tooth growth between the two supplements at the given dosage.  As is customary, the null hypothesis is the default position unless proven otherwise.  These are summarized below.
+After analyzing the data above, the natural question is how do both the supplement and dosage compare with regard to their effect on tooth growth.  In particular, is there a statistically significant indication that one supplement given at a particular dosage is superior to the other?  In order to answer this question, two hypothesis tests are setup per dosage (three test cases in total).  The null hypothesis ($H_0$) is that there is no difference in tooth growth between orange juice and vitamin C at the given dosage.  The alternative hypothesis ($H_a$) posits that there is, in fact, a statistically significant difference in tooth growth between the two supplements at the given dosage.  As is customary, the null hypothesis is the default position unless proven otherwise.  The test cases are summarized below.
 
 ### Test case 1
 $H_0:$ There is no difference in tooth growth between orange juice and vitamin C at a dosage of 0.5 mg.  
@@ -103,7 +103,7 @@ $H_a:$ There is a difference in tooth growth between orange juice and vitamin C 
 $H_0:$ There is no difference in tooth growth between orange juice and vitamin C at a dosage of 2 mg.  
 $H_a:$ There is a difference in tooth growth between orange juice and vitamin C at a dosage of 2 mg.  
 
-For the purposes of this study, statistical significance is derived using a two-tailed Student's t-Test for a 95% confidence interval.  A p-Value below the 2.5% cutoff indicates that orange juice has a greater impact on tooth growth while a p-Value above 97.5% indicates that vitamin C has a greater impact on tooth growth.  Table 2 depicts the results.
+For the purposes of this study, statistical significance is derived using a two-tailed Student's t-Test for a 95% confidence interval.  A positive t-Statistic and a p-Value below the 2.5% cutoff indicates that orange juice has a greater impact on tooth growth while a negative t-Statistic and a p-Value above 97.5% indicates that vitamin C has a greater impact on tooth growth.  Table 2 depicts the results.
 
 ```{r hypothesisTest, echo=FALSE}
 suppressWarnings(library(pander))
@@ -165,7 +165,7 @@ colnames(hypothesis.df) <- c("t-Statistic", "Degrees of Freedom", "p-Value")
 pander(hypothesis.df, caption = "Hypothesis Test Results")
 ```
 
-The first two hypothesis tests fall below the bottom 2.5% cutoff, necessitating a rejection of the null hypothesis and indicating statistical significance in favor of orange juice as a more effective driver for tooth growth at dosages of 0.5 mg and 1 mg.  While the third test (2 mg) is very close, it fails to exceed the 97.5% upper tail cutoff, so the null hypothesis is not rejected, meaning that we cannot make the argument that vitamin C results in greater tooth growth than orange juice for doses of 2 mg.
+The first two hypothesis tests have a  postivie t-Statistic and fall below the bottom 2.5% cutoff, necessitating a rejection of the null hypothesis and indicating statistical significance in favor of orange juice as a more effective driver for tooth growth at dosages of 0.5 mg and 1 mg.  While the third test (2 mg) is very close, it has a negative t-Statistic and fails to exceed the 97.5% upper tail cutoff, so the null hypothesis is not rejected, meaning that we cannot make the argument that vitamin C results in greater tooth growth than orange juice for doses of 2 mg.
 
 ## Appendix
 
